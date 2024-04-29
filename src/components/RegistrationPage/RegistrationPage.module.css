@@ -1,0 +1,44 @@
+.RegistrationPage {
+    min-height: 100vh;
+    padding: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 50px;
+    background: linear-gradient(pink, green);
+}
+
+.RegistrationPage__form {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 42px;
+}
+
+h2 {
+    font-size: 50px;
+}
+
+input {
+    width: 100%;
+    height: 40px;
+    padding: 15px 25px;
+}
+
+button {
+    cursor: pointer;
+    background-color: #f13232;
+    transition: 0.2s all;
+}
+
+button:hover {
+    background-color: #e70c0c;
+    transform: scale(0.95);
+}
+
+.RegistrationPage__error {
+    margin-top: 15px;
+    color: #f13232;
+    text-align: center;
+}

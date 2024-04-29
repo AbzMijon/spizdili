@@ -1,0 +1,59 @@
+.fitness-training {
+  color: var(--three);
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.section-head button {
+  background-color: var(--three);
+  color: var(--white);
+}
+
+.section-head button::before {
+  background-color: var(--one);
+}
+
+.section-head button:hover {
+  color: var(--three);
+}
+
+.boxes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 30px;
+}
+
+.boxes-container img {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.boxes-container p {
+  color: var(--four);
+  width: 80%;
+  margin: 10px 0;
+}
+
+.boxes-container a {
+  color: var(--two);
+  font-size: 14px;
+}
+
+@media (max-width: 400px) {
+  .section-head {
+    flex-direction: column;
+  }
+
+  .section-head h2 {
+    margin: 20px 0;
+  }
+
+  .boxes-container {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
