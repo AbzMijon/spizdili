@@ -12,7 +12,7 @@ function RegistrationPage() {
     const onSubmitRegistration = () => {
         axios.post('YOUR URL', {
             name: name,
-            email: email,
+            email: mail,
             password: password,
         }).then((res) => {
             localStorage.setItem('beererToken', res.data);
@@ -27,7 +27,7 @@ function RegistrationPage() {
     const onSubmitLogin = () => {
         axios.post('YOUR URL', {
             name: name,
-            email: email,
+            email: mail,
             password: password,
         }).then((res) => {
             localStorage.setItem('beererToken', res.data);
