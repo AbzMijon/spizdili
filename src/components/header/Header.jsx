@@ -22,7 +22,7 @@ const Header = () => {
           <div className={styles.image_holder}>
             <img src={logo} alt="Logo" />
           </div>
-          Strengthy
+          Life and sport
         </div>
         <ul className={active ? `${styles.activeList}` : ""}>
           {headerLinksData.map((link) => {

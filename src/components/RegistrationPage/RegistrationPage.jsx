@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './RegistrationPage.module.css';
 import axios from 'axios';
 
