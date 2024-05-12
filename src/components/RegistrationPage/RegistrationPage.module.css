@@ -6,7 +6,8 @@
     align-items: center;
     flex-direction: column;
     gap: 50px;
-    background: linear-gradient(pink, green);
+    background: linear-gradient(rgb(255, 255, 255), rgb(147, 0, 125));
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .RegistrationPage__form {
@@ -28,8 +29,10 @@ input {
 
 button {
     cursor: pointer;
-    background-color: #f13232;
+    background-color: #32f18e;
     transition: 0.2s all;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 button:hover {

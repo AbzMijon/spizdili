@@ -11,7 +11,7 @@ const Footer = () => {
         <h2>
           Follow me on
           <a
-            href="https://www.linkedin.com/in/the-mustafa-khaled/"
+            href="#"
             target="_blank">
             Linked In
           </a>

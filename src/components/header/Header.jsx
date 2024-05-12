@@ -9,7 +9,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const [active, setActive] = useState(false);
-  const isAuth = JSON.parse(localStorage.getItem('isAuth'));
+  const isAuth = localStorage.getItem('beererToken');
 
   const menuHandler = () => {
     setActive(!active);
