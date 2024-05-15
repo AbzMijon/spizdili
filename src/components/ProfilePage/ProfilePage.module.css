@@ -77,3 +77,57 @@
     cursor: not-allowed;
     background-color: grey;
 }
+
+
+
+
+
+.adminTrainer img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.adminTrainer {
+    display: flex;
+    justify-content: start;
+    gap: 24px;
+}
+
+.adminTable {
+    border: 1px solid #000;
+    margin: 0 50px;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 20px;
+}
+
+
+.adminCalendar {
+    display: flex;
+    justify-content: start;
+    gap: 25px;
+}
+
+.adminTIMES {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 50px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #fff;
+}
+
+.createTrainer {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.createTrainer input {
+    width: 250px;
+}
