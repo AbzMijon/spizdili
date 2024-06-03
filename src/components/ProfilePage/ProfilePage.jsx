@@ -3,6 +3,9 @@ import styles from './ProfilePage.module.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import Schedule from '../schedule/Schedule';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
+
 
 function ProfilePage() {
 
@@ -84,6 +87,8 @@ function ProfilePage() {
         })
     };
 
+    const isAuth = localStorage.getItem('beererToken');
+
     const [openCreateTrainer, setOpenCreateTrainer] = useState(false);
     const [trName, setTrName] = useState('');
     const [trSurame, setTrSurname] = useState('');
@@ -118,7 +123,37 @@ function ProfilePage() {
         }).then(() => {
             handleSelectTrainer();
         })
-    }
+    };
+
+
+    const [stompClient, setStompClient] = useState(null);
+
+    useEffect(() => {
+        if(isAuth) {
+            // Connect to WebSocket
+            const ws = new SockJS('http://localhost:8080/ws');
+            const client = Stomp.over(ws);
+    
+            client.connect({ 'Authorization': `Bearer ${token}` }, () => {
+            console.log('Connected to WebSocket');
+    
+            // Subscribe to the specific topic
+            client.subscribe('/user/specific', (message) => {
+                alert(JSON.parse(message.body).message);
+                console.log('message', message);
+            }, { 'Authorization': `Bearer ${token}` });
+    
+            setStompClient(client);
+            });
+    
+            // Clean up the WebSocket connection on component unmount
+            return () => {
+                if (stompClient) {
+                    stompClient.disconnect();
+                }
+            };
+        }
+    }, [token]);
 
     return (
         <div className={styles.profile}>
