@@ -2,10 +2,13 @@ import { useState } from 'react';
 import styles from './RegistrationPage.module.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import home5 from '../../assets/contact2.png';
 
 function RegistrationPage() {
 
     const navigate = useNavigate();
+
+    const [type, setType] = useState('registration');
 
     //registr
 
@@ -58,25 +61,34 @@ function RegistrationPage() {
 
     return (
         <div className={styles.RegistrationPage}>
-            <h2>Регистрация</h2>
-            <div className={styles.RegistrationPage__form}>
-                <input type='text' value={username} onChange={(e) => setUserame(e.target.value)} placeholder='Ник' />
-                <input type='text' value={name} onChange={(e) => setName(e.target.value)} placeholder='Имя' />
-                <input type='text' value={surname} onChange={(e) => setSurname(e.target.value)} placeholder='Фамилия' />
-                <input type='email' value={mail} onChange={(e) => setMail(e.target.value)} placeholder='Почта' />
-                <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Пароль' />
-                <input type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder='Повторите пароль' />
-                <button onClick={onSubmitRegistration}>Отправить</button>
+        {type === 'registration' ? (
+            <div>
+                <h2>Регистрация</h2>
+                <div className={styles.RegistrationPage__form}>
+                    <input type='text' value={username} onChange={(e) => setUserame(e.target.value)} placeholder='Ник' />
+                    <input type='text' value={name} onChange={(e) => setName(e.target.value)} placeholder='Имя' />
+                    <input type='text' value={surname} onChange={(e) => setSurname(e.target.value)} placeholder='Фамилия' />
+                    <input type='email' value={mail} onChange={(e) => setMail(e.target.value)} placeholder='Почта' />
+                    <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} placeholder='Пароль' />
+                    <input type='password' value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder='Повторите пароль' />
+                    <button onClick={onSubmitRegistration}>Отправить</button>
+                </div>
+                <p className={styles.RegistrationPage__type} onClick={() => setType('login')}>Есть аккаунт?</p>
+                {error ? <p className={styles.RegistrationPage__error}>{error}</p> : null}
             </div>
-            {error ? <p className={styles.RegistrationPage__error}>{error}</p> : null}
-
-            <h2>Войти в аккаунт</h2>
-            <div className={styles.RegistrationPage__form}>
-                <input type='text' value={usernameLogin} onChange={(e) => setUserameLogin(e.target.value)} placeholder='Ник' />
-                <input type='password' value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} placeholder='Пароль' />
-                <button onClick={onSubmitLogin}>Отправить</button>
+        ) : (
+            <div>
+                <h2>Войти в аккаунт</h2>
+                <div className={styles.RegistrationPage__form}>
+                    <input type='text' value={usernameLogin} onChange={(e) => setUserameLogin(e.target.value)} placeholder='Ник' />
+                    <input type='password' value={passwordLogin} onChange={(e) => setPasswordLogin(e.target.value)} placeholder='Пароль' />
+                    <button onClick={onSubmitLogin}>Отправить</button>
+                </div>
+                <p className={styles.RegistrationPage__type} onClick={() => setType('registration')}>Нет аккаунта?</p>
+                {error ? <p className={styles.RegistrationPage__error}>{error}</p> : null}
             </div>
-            {error ? <p className={styles.RegistrationPage__error}>{error}</p> : null}
+        )}
+        <img src={home5} />
         </div>
     )
 }

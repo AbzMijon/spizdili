@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import Schedule from '../schedule/Schedule';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
+import { toast } from 'react-toastify';
 
 
 function ProfilePage() {
@@ -90,6 +91,7 @@ function ProfilePage() {
     const isAuth = localStorage.getItem('beererToken');
 
     const [openCreateTrainer, setOpenCreateTrainer] = useState(false);
+    const [openTrainers, setOpanTrainers] = useState(false);
     const [trName, setTrName] = useState('');
     const [trSurame, setTrSurname] = useState('');
     const [trPhone, setTrPhone] = useState('');
@@ -139,7 +141,7 @@ function ProfilePage() {
     
             // Subscribe to the specific topic
             client.subscribe('/user/specific', (message) => {
-                alert(JSON.parse(message.body).message);
+                toast(JSON.parse(message.body).message);
                 console.log('message', message);
             }, { 'Authorization': `Bearer ${token}` });
     
@@ -153,7 +155,7 @@ function ProfilePage() {
                 }
             };
         }
-    }, [token]);
+    }, []);
 
     return (
         <div className={styles.profile}>
@@ -175,7 +177,10 @@ function ProfilePage() {
                                     <p>Почта: <span className={styles.profile_wrap__value}>{userData?.trainer?.email}</span></p>
                                     <p>Имя: <span className={styles.profile_wrap__value}>{userData?.trainer?.first_name}</span></p>
                                     <p>Фамилия: <span className={styles.profile_wrap__value}>{userData?.trainer?.last_name}</span></p>
-                                    <button onClick={handleSelectTrainer}>Сменить тренера</button>
+                                    <button onClick={() => {
+                                        handleSelectTrainer();
+                                        setOpanTrainers(!openTrainers);
+                                    }}>Сменить тренера</button>
                                 </div>
                                 <div className={styles.profile__form}>
                                     <p className={styles.profile__form__title}>Рассписание </p>
@@ -191,21 +196,22 @@ function ProfilePage() {
                                         </li>
                                     )) : null}
                                     </ul>
-                                    <button onClick={handleSelectShedule}>Сменить рассписание</button>
                                 </div>
                             </div>
                         ) : (
                             <p>Загрузка...</p>
                         )}
                 </>
-                {trainers && trainers?.length ? (
+                {openTrainers && trainers && trainers?.length ? (
                     <ul className={styles.trainer__wrap}>
                         {trainers?.map((trainer) => (
                             <li key={trainer.id} className={styles.trainer}>
                                 <img src={trainer.photo} />
-                                <p>Имя: {trainer?.first_name + trainer?.last_name}</p>
-                                <p>Телефон: {trainer?.phone_number}</p>
-                                <p>Цена: {trainer?.cost_per_session} батонов</p>
+                                <div>
+                                    <p>Имя: <span className={styles.profile_wrap__value}>{trainer?.first_name + trainer?.last_name}</span></p>
+                                    <p>Телефон: <span className={styles.profile_wrap__value}>+{trainer?.phone_number}</span></p>
+                                    <p>Цена: <span className={styles.profile_wrap__value}>{trainer?.cost_per_session} батонов</span></p>
+                                </div>
                                 <button
                                     onClick={() => handleChangeTrainer(trainer.id)}
                                     disabled={userData?.trainer?.id === trainer?.id}
@@ -244,6 +250,7 @@ function ProfilePage() {
                         </div>
                     ) : null}
                 </ul>
+                <button className={styles.profile__form_btn} onClick={handleLogout}>Выйти</button>
                 <button onClick={() => setOpenCreateTrainer(true)}>создать тренера</button>
                 {openCreateTrainer && (
                     <div className={styles.createTrainer}>

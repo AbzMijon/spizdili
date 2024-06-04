@@ -9,6 +9,10 @@ import App from "./App";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 AOS.init();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -16,6 +20,7 @@ root.render(
   <React.StrictMode>
     <Router>
       <App />
+      <ToastContainer />
     </Router>
   </React.StrictMode>
 );
