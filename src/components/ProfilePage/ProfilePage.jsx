@@ -163,29 +163,31 @@ function ProfilePage() {
                         {userData ? (
                             <div className={styles.profile_wrap}>
                                 <div className={styles.profile__form}>
-                                    <p>Информация о пользователе</p>
-                                    <p>Почта: {userData?.email}</p>
-                                    <p>Имя: {userData?.first_name}</p>
-                                    <p>Фамилия: {userData?.last_name}</p>
-                                    <p>Ник: @{userData?.username}</p>
-                                    <button onClick={handleLogout}>Выйти</button>
+                                    <p className={styles.profile__form__title}>Информация о пользователе</p>
+                                    <p>Почта: <span className={styles.profile_wrap__value}>{userData?.email}</span></p>
+                                    <p>Имя: <span className={styles.profile_wrap__value}>{userData?.first_name}</span></p>
+                                    <p>Фамилия: <span className={styles.profile_wrap__value}>{userData?.last_name}</span></p>
+                                    <p>Ник: <span className={styles.profile_wrap__value}>@{userData?.username}</span></p>
+                                    <button className={styles.profile__form_btn} onClick={handleLogout}>Выйти</button>
                                 </div>
                                 <div className={styles.profile__form}>
-                                    <p>Тренер: </p>
-                                    <p>Почта: {userData?.trainer?.email}</p>
-                                    <p>Имя: {userData?.trainer?.first_name}</p>
-                                    <p>Фамилия: {userData?.trainer?.last_name}</p>
+                                    <p className={styles.profile__form__title}>Тренер </p>
+                                    <p>Почта: <span className={styles.profile_wrap__value}>{userData?.trainer?.email}</span></p>
+                                    <p>Имя: <span className={styles.profile_wrap__value}>{userData?.trainer?.first_name}</span></p>
+                                    <p>Фамилия: <span className={styles.profile_wrap__value}>{userData?.trainer?.last_name}</span></p>
                                     <button onClick={handleSelectTrainer}>Сменить тренера</button>
                                 </div>
                                 <div className={styles.profile__form}>
-                                    <p>Рассписание: </p>
+                                    <p className={styles.profile__form__title}>Рассписание </p>
                                     <ul>
                                     {userData?.schedules && userData?.schedules?.length ? userData?.schedules?.map((el) => (
                                         <li>
-                                            <p>{new Date(el.start_time).toLocaleString('default', { month: 'long' })} {new Date(el.start_time).getDate()}, {new Date(el.start_time).getFullYear()}</p>
-                                            -
-                                            <p>{new Date(el.end_time).toLocaleString('default', { month: 'long' })} {new Date(el.start_time).getDate()}, {new Date(el.start_time).getFullYear()}</p>
-                                            Тип тренировки: {el.training_type.name}
+                                            <div className={styles.profile_wrap__shedule_name}>
+                                                <p>{new Date(el.start_time).toLocaleString('default', { month: 'long' })} {new Date(el.start_time).getDate()}, {new Date(el.start_time).getFullYear()}</p>
+                                                -
+                                                <p>{new Date(el.end_time).toLocaleString('default', { month: 'long' })} {new Date(el.start_time).getDate()}, {new Date(el.start_time).getFullYear()}</p>
+                                            </div>
+                                            Тип тренировки: <span className={styles.profile_wrap__value}>{el.training_type.name}</span>
                                         </li>
                                     )) : null}
                                     </ul>
@@ -203,7 +205,7 @@ function ProfilePage() {
                                 <img src={trainer.photo} />
                                 <p>Имя: {trainer?.first_name + trainer?.last_name}</p>
                                 <p>Телефон: {trainer?.phone_number}</p>
-                                <p>Цена: {trainer?.cost_per_session} отсосов</p>
+                                <p>Цена: {trainer?.cost_per_session} батонов</p>
                                 <button
                                     onClick={() => handleChangeTrainer(trainer.id)}
                                     disabled={userData?.trainer?.id === trainer?.id}

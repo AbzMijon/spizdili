@@ -1,26 +1,26 @@
 .profile {
     width: 100vw;
-    background-color: grey;
+    background-color: #1d2229;
     margin-top: 90px;
-    font-size: 35px;
+    font-size: 20px;
+    padding: 60px;
 }
 
 .profile_wrap {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
 }
 
 .profile__form {
-    background-color: #fff;
+    background-color: #2c323a;
     border-radius: 15px;
-    box-shadow: 0 0 10px #fff;
-    border: 2px solid grey;
     padding: 15px 20px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    font-family: 'Times New Roman', Times, serif;
+    font-family: "Roboto", sans-serif;
+    color: #fff;
 }
 
 .trainer__wrap button {
@@ -29,6 +29,7 @@
 
 .profile__form button {
     margin-top: auto;
+    background-color: #a1f65e;
 }
 
 .trainer__wrap img {
@@ -51,7 +52,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 14px;
-    padding: 50px;
+    margin-top: 50px;
 }
 
 .trainer__wrap li {
@@ -79,6 +80,19 @@
 }
 
 
+.profile_wrap__shedule_name {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.profile_wrap__value {
+    color: #6a6a6a;
+}
+
+.profile__form__title {
+    font-size: 25px;
+}
 
 
 
@@ -130,4 +144,7 @@
 
 .createTrainer input {
     width: 250px;
+}
+.profile__form_btn {
+    background-color: #ff6464 !important;
 }
