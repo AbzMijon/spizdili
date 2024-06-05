@@ -60,20 +60,25 @@ export const headerLinksData = [
     title: "Classes",
     to: "/classes",
   },
-  {
+/*   {
     id: 4,
     title: "Trainers",
     to: "/trainers",
-  },
-  {
+  }, */
+/*   {
     id: 5,
     title: "Blog",
     to: "/blog",
-  },
-  {
+  }, */
+/*   {
     id: 6,
     title: "Contact",
     to: "/contact",
+  }, */
+  {
+    id: 7,
+    title: "Тренажеры",
+    to: "/simulators",
   },
 ];
 
@@ -363,6 +368,56 @@ export const allOurTrainersData = [
     title: "Energy Dance",
     image: ourTrainer6,
     to: "/",
+  },
+];
+
+export const allOurSimulatorsData = [
+  {
+    id: 1,
+    title: "Pilates Training",
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwt5FSDoHuZyEQZgult6MvnBnC-Y3XpWwUug&s',
+    to: "/yogaClass",
+    text: 'Pilates Training это система тренировок, которая укрепляет мышцы, выравнивает осанку, развивает гибкость и даже налаживает связь разума и тела. Направление разработал Джозеф Пилатес в начале прошлого века, когда пытался помочь солдатам, пострадавшим во время войны.'
+  },
+
+  {
+    id: 2,
+    title: "CrossFit",
+    image: 'https://sigmagym.ru/upload/resize_cache/webp/upload/medialibrary/081/mzfz8zwkft7w05w77k4qlx4k7ydg0qjw.webp',
+    to: "/",
+    text: 'это уникальная система тренировок. Она основана на круговом повторении упражнений за минимальное время. Занятия направлены на увеличение силы, ловкости, выносливости, гибкости и координации.'
+  },
+
+  {
+    id: 3,
+    title: "Aerobic",
+    image: 'https://www.tfx.ru/images/preim_12_big.png',
+    to: "/",
+    text: 'Комплекс упражнений включает в себя ходьбу, бег, прыжки, упражнения на гибкость. Результат регулярных занятий аэробикой — поддержание тела в тонусе, тренировка мышц и кожи, общее оздоровление организма. Используется в профилактических и лечебно-оздоровительных целях.'
+  },
+
+  {
+    id: 4,
+    title: "Yoga As Therapy",
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSX20vzKCrDRe-cjXZQoq8RpnEltFgy02n-bw&s',
+    to: "/",
+    text: 'понятие в индийской культуре, в широком смысле означающее совокупность различных духовных, психических и физических практик, разрабатываемых в разных направлениях индуизма и буддизма'
+  },
+
+  {
+    id: 5,
+    title: "Boxing",
+    image: 'https://sportsity.by/pics/items/20200109140109_GX-180_1.jpg',
+    to: "/",
+    text: 'Контактный вид спорта, единоборство, в котором спортсмены наносят друг другу удары кулаками обычно в специальных перчатках.'
+  },
+
+  {
+    id: 6,
+    title: "Energy Dance",
+    image: 'https://www.tfx.ru/images/preim_1_big.png',
+    to: "/",
+    text: 'это первая и единственная студия в Ленинске-Кузнецком, где Вас научат танцевать не только на полу, но и в воздухе, сделают стройными, гибкими и, конечно, здоровыми и сильными.'
   },
 ];
 

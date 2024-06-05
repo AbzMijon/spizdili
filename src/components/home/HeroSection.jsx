@@ -12,7 +12,7 @@ const HeroSection = () => {
         Fit & Strong
       </h1>
       <div>
-        <button onClick={() => navigate("/schedule")}>Start Today</button>
+        <button onClick={() => navigate("/registration")}>Start Today</button>
         <button>About Me</button>
       </div>
     </div>

@@ -6,6 +6,7 @@ import Schedule from '../schedule/Schedule';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import { toast } from 'react-toastify';
+import dayjs from 'dayjs';
 
 
 function ProfilePage() {
@@ -62,8 +63,10 @@ function ProfilePage() {
 
 
     const [openCalendar, setOpenCalendar] = useState(false);
+    const [selectedTeacher, setSelectedTeacher] = useState(null);
 
-    const handleChoiseTrainerByID = () => {
+    const handleChoiseTrainerByID = (id) => {
+        setSelectedTeacher(id);
         setOpenCalendar(!openCalendar);
     }
 
@@ -97,8 +100,16 @@ function ProfilePage() {
     const [trPhone, setTrPhone] = useState('');
     const [trMail, setTrMail] = useState('');
     const [trCost, setTrCost] = useState('');
+    const [trType, setTrTypr] = useState('');
+    const [adminDataStartCreate, setAdminDataStartCreate] = useState(null);
+    const [adminTimeStartCreate, setAdminTimeStartCreate] = useState(null);
+
+    const [adminDataEndCreate, setAdminDataEndCreate] = useState(null);
+    const [adminTimeEndCreate, setAdminTimeEndCreate] = useState(null);
 
     const handleCreateTrainer = () => {
+
+
         axios.post('http://localhost:8080/api/v1/trainers', {
             "id": 0,
             "first_name": trName,
@@ -110,11 +121,11 @@ function ProfilePage() {
             "schedules": [
                 {
                     "id": 0,
-                    "start_time": "2024-05-15T18:37:18.258Z",
-                    "end_time": "2024-05-15T18:37:18.258Z",
+                    "start_time": `${adminDataStartCreate}T${adminTimeStartCreate}.910Z`,
+                    "end_time": `${adminDataEndCreate}T${adminTimeEndCreate}.910Z`,
                     "training_type": {
                         "id": 0,
-                        "name": "string"
+                        "name": trType
                     }
                 }
             ]
@@ -156,6 +167,23 @@ function ProfilePage() {
             };
         }
     }, []);
+
+    const [adminDataStart, setAdminDataStart] = useState(null);
+    const [adminTimeStart, setAdminTimeStart] = useState(null);
+
+    const [adminDataEnd, setAdminDataEnd] = useState(null);
+    const [adminTimeEnd, setAdminTimeEnd] = useState(null);
+
+    useEffect(() => {
+        if(openCreateTrainer === false) {
+            setTrName('');
+            setTrSurname('');
+            setTrPhone('');
+            setTrMail('');
+            setTrCost('');
+            setTrTypr('');
+        }
+    }, [openCreateTrainer])
 
     return (
         <div className={styles.profile}>
@@ -224,56 +252,78 @@ function ProfilePage() {
                 ) : null}
             </>
         ) : (
-            <div className={styles.profile}>
-                <ul className={styles.adminTable}>
-                    {trainers?.map((trainer) => (
-                        <li className={styles.adminTrainer}>
-                            <img src={trainer.photo}/>
-                            <p>{trainer?.first_name + trainer?.last_name}</p>
-                            <button onClick={() => handleChoiseTrainerByID(trainer.id)}>Поменять график</button>
-                            <button onClick={() => handleDeleteTrainer(trainer.id)}>Удалить</button>
-                        </li>
-                    ))}
+            <>
+                <button className={styles.profile__form_btn} onClick={handleLogout}>Выйти</button>
+                <p className={styles.profileAdminTitle}>Тренера</p>
+                <div className={styles.profileAdmin}>
+                    <ul className={styles.adminTable}>
+                        {trainers?.map((trainer) => (
+                            <li key={trainer.id} >
+                                <img src={trainer.photo} alt="" className={styles.adminTeacherImg} />
+                                <h3>{trainer?.first_name + trainer?.last_name}</h3>
+                                <button className={styles.adminAddTeacher} onClick={() => handleChoiseTrainerByID(trainer.schedules[0].id)}>Поменять график</button>
+                                <button className={styles.adminTableDelete} onClick={() => handleDeleteTrainer(trainer.id)}>Удалить</button>
+                            </li>
+                        ))}
+                    </ul>
+                    <button className={styles.adminAddTeacher} onClick={() => setOpenCreateTrainer(true)}>+ создать тренера</button>
                     {openCalendar ? (
-                        <div className={styles.adminTIMES}>
-                            <div className={styles.adminCalendar}>
-                                <span>Начало: </span>
-                                <input type='date'/>
-                                <input type='time'/>
+                        <div className={styles.adminTIMES} onClick={() => setOpenCalendar(false)}>
+                            <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+                                    <span>Начало: </span>
+                                <div className={styles.adminCalendar}>
+                                    <input type='date' onChange={(e) => setAdminDataStart(e.target.value)} />
+                                    <input type='time' onChange={(e) => setAdminTimeStart(e.target.value)} />
+                                </div>
+                                    <span>Конец: </span>
+                                <div className={styles.adminCalendar}>
+                                    <input type='date' onChange={(e) => setAdminDataEnd(e.target.value)} />
+                                    <input type='time' onChange={(e) => setAdminTimeEnd(e.target.value)} />
+                                </div>
+                                <button onClick={() => {
+                                    if(adminDataStart && adminTimeStart) {
+
+                                        axios.patch(`http://localhost:8080/api/v1/schedules/update-time-stamp?schedule_id=${selectedTeacher}&notify=true`, {
+                                            start_time: dayjs(`${adminDataStart}T${adminTimeStart}`).toISOString(),
+                                            end_time: dayjs(`${adminDataEnd}T${adminTimeEnd}`).toISOString(),
+                                        }, {
+                                            headers: {
+                                                Authorization: `Bearer ${token}`,
+                                            }
+                                        })
+
+                                    }
+                                    setOpenCalendar(false)
+                                }}>Сохранить рассписание</button>
                             </div>
-                            <div className={styles.adminCalendar}>
-                                <span>Конец: </span>
-                                <input type='date'/>
-                                <input type='time'/>
-                            </div>
-                            <button onClick={() => setOpenCalendar(false)}>Сохранить рассписание</button>
                         </div>
                     ) : null}
-                </ul>
-                <button className={styles.profile__form_btn} onClick={handleLogout}>Выйти</button>
-                <button onClick={() => setOpenCreateTrainer(true)}>создать тренера</button>
-                {openCreateTrainer && (
-                    <div className={styles.createTrainer}>
-                        <input type='text' placeholder='имя тренера' value={trName} onChange={(e) => setTrName(e.target.value)} />
-                        <input type='text' placeholder='фамилия тренера' value={trSurame} onChange={(e) => setTrSurname(e.target.value)} />
-                        <input type='text' placeholder='номер телефона' value={trPhone} onChange={(e) => setTrPhone(e.target.value)} />
-                        <input type='text' placeholder='почта тренера' value={trMail} onChange={(e) => setTrMail(e.target.value)} />
-                        <input type='text' placeholder='цена за урок тренера' value={trCost} onChange={(e) => setTrCost(e.target.value)} />
-                        <p>Рассписание тренера</p>
-                        <div>
-                            Начало:
-                            <input type='date'/>
-                            <input type='time'/>
+                    {openCreateTrainer && (
+                        <div className={styles.adminTIMES} onClick={() => setOpenCreateTrainer(false)}>
+                            <div className={styles.modalCreate} onClick={(e) => e.stopPropagation()}>
+                                <h3>Создание тренера</h3>
+                                <input type='text' placeholder='Имя' value={trName} onChange={(e) => setTrName(e.target.value)} />
+                                <input type='text' placeholder='Фамилия' value={trSurame} onChange={(e) => setTrSurname(e.target.value)} />
+                                <input type='text' placeholder='Номер телефона' value={trPhone} onChange={(e) => setTrPhone(e.target.value)} />
+                                <input type='text' placeholder='Почта' value={trMail} onChange={(e) => setTrMail(e.target.value)} />
+                                <input type='text' placeholder='Цена за урок' value={trCost} onChange={(e) => setTrCost(e.target.value)} />
+                                <input type='text' placeholder='Тип занятия' value={trType} onChange={(e) => setTrTypr(e.target.value)} />
+                                    <h3>Начало:</h3>
+                                <div className={styles.modalCreate__time}>
+                                    <input type='date' onChange={(e) => setAdminDataStartCreate(e.target.value)}/>
+                                    <input type='time' onChange={(e) => setAdminTimeStartCreate(e.target.value)}/>
+                                </div>
+                                    <h3>Конец:</h3>
+                                <div className={styles.modalCreate__time}>
+                                    <input type='date' onChange={(e) => setAdminDataEndCreate(e.target.value)} />
+                                    <input type='time' onChange={(e) => setAdminTimeEndCreate(e.target.value)} />
+                                </div>
+                                <button onClick={handleCreateTrainer}>Создать</button>
+                            </div>
                         </div>
-                        <div>
-                            Конец:
-                            <input type='date' />
-                            <input type='time' />
-                        </div>
-                        <button onClick={handleCreateTrainer}>Создать</button>
-                    </div>
-                )}
-            </div>
+                    )}
+                </div>
+            </>
         )}
         </div>
     )

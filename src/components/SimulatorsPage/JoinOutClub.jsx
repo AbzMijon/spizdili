@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import styles from "./classes.module.css";
+import styles from "./SimulatorsPage.module.css";
 
 const JoinOurClub = () => {
   const navigate = useNavigate();

@@ -7,6 +7,7 @@ import Home from "./components/home/Home";
 import ScrollToTop from "./components/scrollToTop/ScrollToTop";
 import RegistrationPage from "./components/RegistrationPage/RegistrationPage";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
+import SimulatorsPage from "./components/SimulatorsPage/SimulatorsPage";
 
 const About = React.lazy(() => import("./components/about/About"));
 const Classes = React.lazy(() => import("./components/classes/Classes"));
@@ -49,6 +50,7 @@ const App = () => {
           <Route path="errorPage" element={<ErrorPage />} />
           <Route path="registration" element={<RegistrationPage />} />
           <Route path="profile" element={<ProfilePage />} />
+          <Route path="simulators" element={<SimulatorsPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Suspense>

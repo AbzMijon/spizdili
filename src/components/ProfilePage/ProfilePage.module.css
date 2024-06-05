@@ -1,5 +1,4 @@
 .profile {
-    width: 100vw;
     background-color: #1d2229;
     margin-top: 90px;
     font-size: 20px;
@@ -101,7 +100,7 @@
 
 
 
-.adminTrainer img {
+.adminTrainer img, .adminTeacherImg {
     width: 50px;
     height: 50px;
     object-fit: cover;
@@ -114,15 +113,59 @@
 }
 
 .adminTable {
-    border: 1px solid #000;
-    margin: 0 50px;
-    padding: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 20px;
+    margin-top: -90px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-bottom: 50px;
 }
+  
+  .adminTable img {
+    width: 100%;
+    margin-bottom: 10px;
+    height: 370px;
+    object-fit: cover;
+  }
+  
+  .adminTable p {
+    width: 80%;
+    margin: 10px 0;
+    color: var(--four);
+  }
+  
+  .adminTable a {
+    color: var(--two);
+  }
 
+  .adminTable button {
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .adminTable h3 {
+    color: #fff;
+  }
+
+  .adminTableDelete {
+    background-color: #ff6464;
+  }
+
+  .profileAdmin {
+    background-color: #1d2229;
+    margin-top: 90px;
+    font-size: 20px;
+  }
+
+  .adminAddTeacher {
+    background-color: #fff;
+  }
+
+  .profileAdminTitle {
+    font-size: 56px;
+    font-weight: bold;
+    text-align: center;
+    color: #fff;
+  }
 
 .adminCalendar {
     display: flex;
@@ -130,14 +173,56 @@
     gap: 25px;
 }
 
-.adminTIMES {
+.adminTIMES {  
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999999;
+}
+
+.modal, .modalCreate {
     display: flex;
     flex-direction: column;
     align-items: start;
     gap: 50px;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 2px solid #fff;
+    border-radius: 20px;
+    background-color: #fff;
+    width: 650px;
+    height: 500px;
+    padding: 40px 35px;
+}
+
+.modal button {
+    margin-top: auto;
+    width: 100%;
+}
+
+.modal span {
+    font-size: 30px;
+}
+
+.modalCreate {
+    height: 90vh;
+    overflow-y: auto;
+    gap: 24px;
+}
+
+.modalCreate button {
+    margin-top: auto;
+    width: 100%;
+}
+
+.modalCreate input {
+    height: 52px;
+}
+.modalCreate input::placeholder{
+    color: #fff !important;
 }
 
 .createTrainer {
@@ -152,4 +237,10 @@
 }
 .profile__form_btn {
     background-color: #ff6464 !important;
+}
+
+.modalCreate__time {
+    display: flex;
+    justify-content: start;
+    gap: 14px;
 }

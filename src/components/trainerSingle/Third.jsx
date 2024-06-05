@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router";
 import styles from "./trainer.module.css";
 
 const Third = () => {
+  const navigate = useNavigate()
   return (
     <div className={`${styles.third} sections-padding`} data-aos="flip-down">
       <div className={`${styles.third_content} container`}>
@@ -24,7 +26,7 @@ const Third = () => {
             </div>
             <input type="text" placeholder="Subject" required />
             <textarea placeholder="Massage"></textarea>
-            <button>Start Now</button>
+            <button onClick={() => navigate('/registration')}>Start Now</button>
           </form>
         </div>
       </div>
