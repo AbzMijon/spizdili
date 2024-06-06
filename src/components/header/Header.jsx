@@ -24,6 +24,7 @@ const Header = () => {
           </div>
           Life and sport
         </div>
+        <p className={styles.time}>Время работы: 08:00 - 23:00</p>
         <ul className={active ? `${styles.activeList}` : ""}>
           {headerLinksData.map((link) => {
             return (

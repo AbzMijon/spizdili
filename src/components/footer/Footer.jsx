@@ -50,6 +50,7 @@ const Footer = () => {
           <h3>Newsletter</h3>
           <input type="text" placeholder="Enter Your Email" />
           <button>Subscribe</button>
+          <p className={styles.madeBy}>Сайт сделан Подобедом Артемом Андреевич</p>
           {/* <div className={styles.footer_icons}>
             <a
               href="https://www.linkedin.com/in/the-mustafa-khaled/"

@@ -85,6 +85,11 @@ header,
   background-color: rgba(0, 0, 0, 0.5);
 }
 
+.time {
+  font-size: 23px;
+  font-weight: bold;
+}
+
 @media (max-width: 900px) {
   header {
     height: 70px;
