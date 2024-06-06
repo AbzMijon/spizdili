@@ -67,20 +67,32 @@ function ProfilePage() {
     const [adminDataEnd, setAdminDataEnd] = useState(null);
     const [adminTimeEnd, setAdminTimeEnd] = useState(null);
 
-
     const [openCalendar, setOpenCalendar] = useState(false);
     const [selectedTeacher, setSelectedTeacher] = useState(null);
 
+    console.log('selectedTeacher', selectedTeacher);
+
+    const handleCloseChangeShedule= () => {
+        setOpenCalendar(false);
+        /* setAdminDataStart(null);
+        setAdminTimeStart(null);
+        setAdminDataEnd(null);
+        setAdminTimeEnd(null);
+        setSelectedTeacher(null); */
+    }
+
+
     const handleChoiseTrainerByID = (id) => {
         setSelectedTeacher(id);
-        setOpenCalendar(!openCalendar);
         const formattedData = dayjs(selectedTeacher?.start_time).format('YYYY-MM-DD HH:mm');
         setAdminDataStart(formattedData?.split(' ')[0]);
         setAdminTimeStart(formattedData?.split(' ')[1]);
-
+        
         const formattedDataEnd = dayjs(selectedTeacher?.end_time).format('YYYY-MM-DD HH:mm');
         setAdminDataEnd(formattedDataEnd?.split(' ')[0]);
         setAdminTimeEnd(formattedDataEnd?.split(' ')[1]);
+
+        setOpenCalendar(true);
     }
 
     useEffect(() => {
@@ -197,7 +209,6 @@ function ProfilePage() {
         }
     }, [openCreateTrainer])
 
-    console.log('adminDataStart', adminDataStart);
 
     return (
         <div className={styles.profile}>
@@ -286,7 +297,7 @@ function ProfilePage() {
                     </ul>
                     <button className={styles.adminAddTeacher} onClick={() => setOpenCreateTrainer(true)}>+ создать тренера</button>
                     {openCalendar ? (
-                        <div className={styles.adminTIMES} onClick={() => setOpenCalendar(false)}>
+                        <div className={styles.adminTIMES} onClick={handleCloseChangeShedule}>
                             <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
                                     <span>Начало: </span>
                                 <div className={styles.adminCalendar}>
@@ -311,7 +322,7 @@ function ProfilePage() {
                                         })
 
                                     }
-                                    setOpenCalendar(false)
+                                    handleCloseChangeShedule()
                                 }}>Сохранить рассписание</button>
                             </div>
                         </div>
