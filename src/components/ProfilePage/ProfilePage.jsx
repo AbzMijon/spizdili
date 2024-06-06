@@ -173,14 +173,14 @@ function ProfilePage() {
           const ws = new SockJS('http://localhost:8080/ws');
           const client = Stomp.over(ws);
     
-          client.connect({ 'Authorization': `Bearer ${token}` }, () => {
+          client?.connect({ 'Authorization': `Bearer ${token}` }, () => {
             console.log('Connected to WebSocket');
     
             // Subscribe to the specific topic
-            const subscription = client.subscribe('/user/specific', (message) => {
+            const subscription = client?.subscribe('/user/specific', (message) => {
               toast(JSON.parse(message.body).message);
               console.log('message', message);
-              stompClient.client.disconnect();
+              stompClient.client?.disconnect();
               stompClient.subscription.unsubscribe();
             }, { 'Authorization': `Bearer ${token}` });
     
@@ -190,7 +190,7 @@ function ProfilePage() {
           // Clean up the WebSocket connection on component unmount
           return () => {
             if (stompClient) {
-              stompClient.client.disconnect();
+              stompClient.client?.disconnect();
               stompClient.subscription.unsubscribe();
             }
           };
@@ -209,9 +209,18 @@ function ProfilePage() {
         }
     }, [openCreateTrainer])
 
+    const [modal, setModal] = useState('');
+
 
     return (
         <div className={styles.profile}>
+        {modal ? (
+            <div className={styles.modalWrap} onClick={() => setModal('')}>
+                <div className={styles.modalT} onClick={(e) => e.stopPropagation()}>
+                    <p className={styles.modalText}>{modal}</p>
+                </div>
+            </div>
+        ) : null}
         {userData?.roles[0].role_type === 'ROLE_USER' ? (
             <>
                 <>
@@ -319,6 +328,10 @@ function ProfilePage() {
                                             headers: {
                                                 Authorization: `Bearer ${token}`,
                                             }
+                                        }).then(() => {
+                                            setModal('Рассписание успешно изменено!')
+                                        }).catch(() => {
+                                            setModal('Ой что то пошло не так!')
                                         })
 
                                     }
