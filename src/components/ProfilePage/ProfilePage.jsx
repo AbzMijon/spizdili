@@ -61,6 +61,12 @@ function ProfilePage() {
         setOpenShedule(true);
     };
 
+    const [adminDataStart, setAdminDataStart] = useState(null);
+    const [adminTimeStart, setAdminTimeStart] = useState(null);
+
+    const [adminDataEnd, setAdminDataEnd] = useState(null);
+    const [adminTimeEnd, setAdminTimeEnd] = useState(null);
+
 
     const [openCalendar, setOpenCalendar] = useState(false);
     const [selectedTeacher, setSelectedTeacher] = useState(null);
@@ -68,6 +74,13 @@ function ProfilePage() {
     const handleChoiseTrainerByID = (id) => {
         setSelectedTeacher(id);
         setOpenCalendar(!openCalendar);
+        const formattedData = dayjs(selectedTeacher?.start_time).format('YYYY-MM-DD HH:mm');
+        setAdminDataStart(formattedData?.split(' ')[0]);
+        setAdminTimeStart(formattedData?.split(' ')[1]);
+
+        const formattedDataEnd = dayjs(selectedTeacher?.end_time).format('YYYY-MM-DD HH:mm');
+        setAdminDataEnd(formattedDataEnd?.split(' ')[0]);
+        setAdminTimeEnd(formattedDataEnd?.split(' ')[1]);
     }
 
     useEffect(() => {
@@ -121,8 +134,8 @@ function ProfilePage() {
             "schedules": [
                 {
                     "id": 0,
-                    "start_time": `${adminDataStartCreate}T${adminTimeStartCreate}.910Z`,
-                    "end_time": `${adminDataEndCreate}T${adminTimeEndCreate}.910Z`,
+                    "start_time": dayjs(`${adminDataStartCreate}T${adminTimeStartCreate}`).toISOString(),
+                    "end_time": dayjs(`${adminDataEndCreate}T${adminTimeEndCreate}`).toISOString(),
                     "training_type": {
                         "id": 0,
                         "name": trType
@@ -135,6 +148,7 @@ function ProfilePage() {
             }
         }).then(() => {
             handleSelectTrainer();
+            setOpenCreateTrainer(false);
         })
     };
 
@@ -142,37 +156,35 @@ function ProfilePage() {
     const [stompClient, setStompClient] = useState(null);
 
     useEffect(() => {
-        if(isAuth) {
-            // Connect to WebSocket
-            const ws = new SockJS('http://localhost:8080/ws');
-            const client = Stomp.over(ws);
+        if (isAuth) {
+          // Connect to WebSocket
+          const ws = new SockJS('http://localhost:8080/ws');
+          const client = Stomp.over(ws);
     
-            client.connect({ 'Authorization': `Bearer ${token}` }, () => {
+          client.connect({ 'Authorization': `Bearer ${token}` }, () => {
             console.log('Connected to WebSocket');
     
             // Subscribe to the specific topic
-            client.subscribe('/user/specific', (message) => {
-                toast(JSON.parse(message.body).message);
-                console.log('message', message);
+            const subscription = client.subscribe('/user/specific', (message) => {
+              toast(JSON.parse(message.body).message);
+              console.log('message', message);
+              stompClient.client.disconnect();
+              stompClient.subscription.unsubscribe();
             }, { 'Authorization': `Bearer ${token}` });
     
-            setStompClient(client);
-            });
+            setStompClient({ client, subscription });
+          });
     
-            // Clean up the WebSocket connection on component unmount
-            return () => {
-                if (stompClient) {
-                    stompClient.disconnect();
-                }
-            };
+          // Clean up the WebSocket connection on component unmount
+          return () => {
+            if (stompClient) {
+              stompClient.client.disconnect();
+              stompClient.subscription.unsubscribe();
+            }
+          };
         }
-    }, []);
-
-    const [adminDataStart, setAdminDataStart] = useState(null);
-    const [adminTimeStart, setAdminTimeStart] = useState(null);
-
-    const [adminDataEnd, setAdminDataEnd] = useState(null);
-    const [adminTimeEnd, setAdminTimeEnd] = useState(null);
+      }, [isAuth, token]);
+    
 
     useEffect(() => {
         if(openCreateTrainer === false) {
@@ -184,6 +196,8 @@ function ProfilePage() {
             setTrTypr('');
         }
     }, [openCreateTrainer])
+
+    console.log('adminDataStart', adminDataStart);
 
     return (
         <div className={styles.profile}>
@@ -261,7 +275,11 @@ function ProfilePage() {
                             <li key={trainer.id} >
                                 <img src={trainer.photo} alt="" className={styles.adminTeacherImg} />
                                 <h3>{trainer?.first_name + trainer?.last_name}</h3>
-                                <button className={styles.adminAddTeacher} onClick={() => handleChoiseTrainerByID(trainer.schedules[0].id)}>Поменять график</button>
+                                <button className={styles.adminAddTeacher} onClick={() => {
+                                    if(trainer.schedules[0]?.id) {
+                                        handleChoiseTrainerByID(trainer.schedules[0])
+                                    }
+                                }}>Поменять график</button>
                                 <button className={styles.adminTableDelete} onClick={() => handleDeleteTrainer(trainer.id)}>Удалить</button>
                             </li>
                         ))}
@@ -272,18 +290,18 @@ function ProfilePage() {
                             <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
                                     <span>Начало: </span>
                                 <div className={styles.adminCalendar}>
-                                    <input type='date' onChange={(e) => setAdminDataStart(e.target.value)} />
-                                    <input type='time' onChange={(e) => setAdminTimeStart(e.target.value)} />
+                                    <input type='date' value={adminDataStart} onChange={(e) => setAdminDataStart(e.target.value)} />
+                                    <input type='time' value={adminTimeStart} onChange={(e) => setAdminTimeStart(e.target.value)} />
                                 </div>
                                     <span>Конец: </span>
                                 <div className={styles.adminCalendar}>
-                                    <input type='date' onChange={(e) => setAdminDataEnd(e.target.value)} />
-                                    <input type='time' onChange={(e) => setAdminTimeEnd(e.target.value)} />
+                                    <input type='date' value={adminDataEnd} onChange={(e) => setAdminDataEnd(e.target.value)} />
+                                    <input type='time' value={adminTimeEnd} onChange={(e) => setAdminTimeEnd(e.target.value)} />
                                 </div>
                                 <button onClick={() => {
                                     if(adminDataStart && adminTimeStart) {
 
-                                        axios.patch(`http://localhost:8080/api/v1/schedules/update-time-stamp?schedule_id=${selectedTeacher}&notify=true`, {
+                                        axios.patch(`http://localhost:8080/api/v1/schedules/update-time-stamp?schedule_id=${selectedTeacher?.id}&notify=true`, {
                                             start_time: dayjs(`${adminDataStart}T${adminTimeStart}`).toISOString(),
                                             end_time: dayjs(`${adminDataEnd}T${adminTimeEnd}`).toISOString(),
                                         }, {
