@@ -36,7 +36,7 @@ function RegistrationPage() {
             password: password,
             confirm_password: confirmPassword
         }).catch((err) => {
-            setError(err.detail.message);
+            setModal('Проверьте правильность введенных данных!');
         })
         
         setMail('');
@@ -52,15 +52,24 @@ function RegistrationPage() {
             localStorage.setItem('beererToken', res.data.token);
             navigate('/');
         }).catch((err) => {
-            setError(err.detail.message);
+            setModal('Проверьте правильность введенных данных!');
         })
         setMail('');
         setName('');
         setPassword('');
     }
 
+    const [modal, setModal] = useState('');
+
     return (
         <div className={styles.RegistrationPage}>
+        {modal ? (
+            <div className={styles.modalWrap} onClick={() => setModal('')}>
+                <div className={styles.modalT} onClick={(e) => e.stopPropagation()}>
+                    <p className={styles.modalText}>{modal}</p>
+                </div>
+            </div>
+        ) : null}
         {type === 'registration' ? (
             <div>
                 <h2>Регистрация</h2>

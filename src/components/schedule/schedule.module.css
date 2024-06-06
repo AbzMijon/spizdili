@@ -12,10 +12,12 @@
 .second {
   color: var(--three);
   text-align: center;
+  margin-top: 160px;
 }
 
+
+
 .second .schedule {
-  margin-top: 30px;
   background-color: var(--three);
   color: var(--white);
 }
@@ -49,4 +51,11 @@
 
 .second .colums div p:first-of-type {
   margin: 10px 0;
+}
+
+
+.second h2 {
+  color: #fff;
+  font-size: 36px;
+  margin-bottom: 35px;
 }

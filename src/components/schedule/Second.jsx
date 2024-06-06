@@ -1,151 +1,104 @@
+import dayjs from "dayjs";
 import styles from "./schedule.module.css";
 
-const Second = () => {
+const Second = ({ data }) => {
+
+  function getDaysTillDate(isoDate) {
+    const currentDate = new Date();
+    const targetDate = new Date(isoDate);
+    const timeDiff = targetDate.getTime() - currentDate.getTime();
+    const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+    return daysLeft;
+  }
+
+  const daysTill = getDaysTillDate(data?.schedules?.[0]?.end_time);
+
+  console.log('daysTill', daysTill);
+
+
+  const formattedData = dayjs(data?.schedules?.[0]?.start_time).format('YYYY-MM-DD HH:mm');
+
+  const formattedDataEnd = dayjs(data?.schedules?.[0]?.end_time).format('YYYY-MM-DD HH:mm');
+
   return (
-    <div className={`${styles.second} container sections-padding`}>
+    <div className={`${styles.second}`}>
       <div>
-        <p className="paragraph">Classes Schedule</p>
-        <h2>Schedule Overview</h2>
+        <h2>Подробное Рассписание</h2>
       </div>
       <div className={styles.schedule}>
         <div className={styles.days}>
-          <h5>Time</h5>
-          <h5>Monday</h5>
-          <h5>Tuesday</h5>
-          <h5>Wednesday</h5>
-          <h5>Thursday</h5>
-          <h5>Friday</h5>
-          <h5>Saturday</h5>
+          <h5>Понидельник</h5>
+          <h5>Вторник</h5>
+          <h5>Среда</h5>
+          <h5>Четверг</h5>
+          <h5>Пятница</h5>
+          <h5>Суббота</h5>
+          <h5>Воскресенье</h5>
         </div>
         <div className={styles.colums}>
-          <div>06.00</div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
+          {daysTill > 0 ? (
+            <div>
+            <h4>{data?.schedules?.[0]?.training_type?.name}</h4>
+            <p>{formattedData?.split(' ')[1]} - {formattedDataEnd?.split(' ')[1]}</p>
             <p>Robert Cage</p>
           </div>
-          <div></div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
+          ) : (
+            <div></div>
+          )}
+          {daysTill > 1 ? (
+            <div>
+            <h4>{data?.schedules?.[0]?.training_type?.name}</h4>
+            <p>{formattedData?.split(' ')[1]} - {formattedDataEnd?.split(' ')[1]}</p>
             <p>Robert Cage</p>
           </div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
+          ) : (
+            <div></div>
+          )}
+          {daysTill > 2 ? (
+            <div>
+            <h4>{data?.schedules?.[0]?.training_type?.name}</h4>
+            <p>{formattedData?.split(' ')[1]} - {formattedDataEnd?.split(' ')[1]}</p>
             <p>Robert Cage</p>
           </div>
-
-          <div></div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
+          ) : (
+            <div></div>
+          )}
+          {daysTill > 3 ? (
+            <div>
+            <h4>{data?.schedules?.[0]?.training_type?.name}</h4>
+            <p>{formattedData?.split(' ')[1]} - {formattedDataEnd?.split(' ')[1]}</p>
             <p>Robert Cage</p>
           </div>
-        </div>
-        <div className={styles.colums}>
-          <div>09.00</div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
+          ) : (
+            <div></div>
+          )}
+          {daysTill > 4 ? (
+            <div>
+            <h4>{data?.schedules?.[0]?.training_type?.name}</h4>
+            <p>{formattedData?.split(' ')[1]} - {formattedDataEnd?.split(' ')[1]}</p>
             <p>Robert Cage</p>
           </div>
-          <div></div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
+          ) : (
+            <div></div>
+          )}
+          {daysTill > 5 ? (
+            <div>
+            <h4>{data?.schedules?.[0]?.training_type?.name}</h4>
+            <p>{formattedData?.split(' ')[1]} - {formattedDataEnd?.split(' ')[1]}</p>
             <p>Robert Cage</p>
           </div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
+          ) : (
+            <div></div>
+          )}
+          {daysTill > 6 ? (
+            <div>
+            <h4>{data?.schedules?.[0]?.training_type?.name}</h4>
+            <p>{formattedData?.split(' ')[1]} - {formattedDataEnd?.split(' ')[1]}</p>
             <p>Robert Cage</p>
           </div>
-
-          <div></div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
-            <p>Robert Cage</p>
-          </div>
-        </div>
-        <div className={styles.colums}>
-          <div>10.00</div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
-            <p>Robert Cage</p>
-          </div>
-          <div></div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
-            <p>Robert Cage</p>
-          </div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
-            <p>Robert Cage</p>
-          </div>
-
-          <div></div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
-            <p>Robert Cage</p>
-          </div>
-        </div>
-        <div className={styles.colums}>
-          <div>11.00</div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
-            <p>Robert Cage</p>
-          </div>
-          <div></div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
-            <p>Robert Cage</p>
-          </div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
-            <p>Robert Cage</p>
-          </div>
-
-          <div></div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
-            <p>Robert Cage</p>
-          </div>
-        </div>
-        <div className={styles.colums}>
-          <div>12.00</div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
-            <p>Robert Cage</p>
-          </div>
-          <div></div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
-            <p>Robert Cage</p>
-          </div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
-            <p>Robert Cage</p>
-          </div>
-
-          <div></div>
-          <div>
-            <h4>Pro Cycling</h4>
-            <p>06.00 - 07.00</p>
-            <p>Robert Cage</p>
-          </div>
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
     </div>

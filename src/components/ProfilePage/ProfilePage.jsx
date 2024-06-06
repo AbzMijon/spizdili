@@ -7,6 +7,7 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import { toast } from 'react-toastify';
 import dayjs from 'dayjs';
+import Second from '../schedule/Second';
 
 
 function ProfilePage() {
@@ -225,41 +226,44 @@ function ProfilePage() {
             <>
                 <>
                         {userData ? (
-                            <div className={styles.profile_wrap}>
-                                <div className={styles.profile__form}>
-                                    <p className={styles.profile__form__title}>Информация о пользователе</p>
-                                    <p>Почта: <span className={styles.profile_wrap__value}>{userData?.email}</span></p>
-                                    <p>Имя: <span className={styles.profile_wrap__value}>{userData?.first_name}</span></p>
-                                    <p>Фамилия: <span className={styles.profile_wrap__value}>{userData?.last_name}</span></p>
-                                    <p>Ник: <span className={styles.profile_wrap__value}>@{userData?.username}</span></p>
-                                    <button className={styles.profile__form_btn} onClick={handleLogout}>Выйти</button>
+                            <>
+                                <div className={styles.profile_wrap}>
+                                    <div className={styles.profile__form}>
+                                        <p className={styles.profile__form__title}>Информация о пользователе</p>
+                                        <p>Почта: <span className={styles.profile_wrap__value}>{userData?.email}</span></p>
+                                        <p>Имя: <span className={styles.profile_wrap__value}>{userData?.first_name}</span></p>
+                                        <p>Фамилия: <span className={styles.profile_wrap__value}>{userData?.last_name}</span></p>
+                                        <p>Ник: <span className={styles.profile_wrap__value}>@{userData?.username}</span></p>
+                                        <button className={styles.profile__form_btn} onClick={handleLogout}>Выйти</button>
+                                    </div>
+                                    <div className={styles.profile__form}>
+                                        <p className={styles.profile__form__title}>Тренер </p>
+                                        <p>Почта: <span className={styles.profile_wrap__value}>{userData?.trainer?.email}</span></p>
+                                        <p>Имя: <span className={styles.profile_wrap__value}>{userData?.trainer?.first_name}</span></p>
+                                        <p>Фамилия: <span className={styles.profile_wrap__value}>{userData?.trainer?.last_name}</span></p>
+                                        <button onClick={() => {
+                                            handleSelectTrainer();
+                                            setOpanTrainers(!openTrainers);
+                                        }}>Сменить тренера</button>
+                                    </div>
+                                    <div className={styles.profile__form}>
+                                        <p className={styles.profile__form__title}>Рассписание </p>
+                                        <ul>
+                                        {userData?.schedules && userData?.schedules?.length ? userData?.schedules?.map((el) => (
+                                            <li>
+                                                <div className={styles.profile_wrap__shedule_name}>
+                                                    <p>{new Date(el.start_time).toLocaleString('default', { month: 'long' })} {new Date(el.start_time).getDate()}, {new Date(el.start_time).getFullYear()}</p>
+                                                    -
+                                                    <p>{new Date(el.end_time).toLocaleString('default', { month: 'long' })} {new Date(el.end_time).getDate()}, {new Date(el.end_time).getFullYear()}</p>
+                                                </div>
+                                                Тип тренировки: <span className={styles.profile_wrap__value}>{el.training_type.name}</span>
+                                            </li>
+                                        )) : null}
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div className={styles.profile__form}>
-                                    <p className={styles.profile__form__title}>Тренер </p>
-                                    <p>Почта: <span className={styles.profile_wrap__value}>{userData?.trainer?.email}</span></p>
-                                    <p>Имя: <span className={styles.profile_wrap__value}>{userData?.trainer?.first_name}</span></p>
-                                    <p>Фамилия: <span className={styles.profile_wrap__value}>{userData?.trainer?.last_name}</span></p>
-                                    <button onClick={() => {
-                                        handleSelectTrainer();
-                                        setOpanTrainers(!openTrainers);
-                                    }}>Сменить тренера</button>
-                                </div>
-                                <div className={styles.profile__form}>
-                                    <p className={styles.profile__form__title}>Рассписание </p>
-                                    <ul>
-                                    {userData?.schedules && userData?.schedules?.length ? userData?.schedules?.map((el) => (
-                                        <li>
-                                            <div className={styles.profile_wrap__shedule_name}>
-                                                <p>{new Date(el.start_time).toLocaleString('default', { month: 'long' })} {new Date(el.start_time).getDate()}, {new Date(el.start_time).getFullYear()}</p>
-                                                -
-                                                <p>{new Date(el.end_time).toLocaleString('default', { month: 'long' })} {new Date(el.start_time).getDate()}, {new Date(el.start_time).getFullYear()}</p>
-                                            </div>
-                                            Тип тренировки: <span className={styles.profile_wrap__value}>{el.training_type.name}</span>
-                                        </li>
-                                    )) : null}
-                                    </ul>
-                                </div>
-                            </div>
+                                <Second data={userData} />
+                            </>
                         ) : (
                             <p>Загрузка...</p>
                         )}
