@@ -123,6 +123,7 @@ function ProfilePage() {
     const [openTrainers, setOpanTrainers] = useState(false);
     const [trName, setTrName] = useState('');
     const [trSurame, setTrSurname] = useState('');
+    const [trAvatar, setTrAvatar] = useState('');
     const [trPhone, setTrPhone] = useState('');
     const [trMail, setTrMail] = useState('');
     const [trCost, setTrCost] = useState('');
@@ -136,14 +137,35 @@ function ProfilePage() {
     const handleCreateTrainer = () => {
 
 
-        axios.post('http://localhost:8080/api/v1/trainers', {
+        /* {
             "id": 0,
+            "first_name": "string",
+            "last_name": "string",
+            "phone_number": "string",
+            "email": "string",
+            "photo": "string",
+            "cost_per_session": 0,
+            "schedules": [
+              {
+                "id": 0,
+                "start_time": "2024-06-08T14:39:42.065Z",
+                "end_time": "2024-06-08T14:39:42.065Z",
+                "training_type": {
+                  "id": 0,
+                  "name": "string"
+                }
+              }
+            ]
+          } */
+
+        axios.post('http://localhost:8080/api/v1/trainers', {
+            "id": Math.floor(Math.random() * 100) + 1,
             "first_name": trName,
             "last_name": trSurame,
             "phone_number": trPhone,
             "email": trMail,
-            "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPimjNls1AGqHyZlxWvvrEhssfHMy-q8N5ftQubFyuFQ&s",
-            "cost_per_session": trCost,
+            "photo": trAvatar,
+            "cost_per_session": +trCost,
             "schedules": [
                 {
                     "id": 0,
@@ -205,6 +227,7 @@ function ProfilePage() {
             setTrSurname('');
             setTrPhone('');
             setTrMail('');
+            setTrAvatar('');
             setTrCost('');
             setTrTypr('');
         }
@@ -350,6 +373,7 @@ function ProfilePage() {
                                 <h3>Создание тренера</h3>
                                 <input type='text' placeholder='Имя' value={trName} onChange={(e) => setTrName(e.target.value)} />
                                 <input type='text' placeholder='Фамилия' value={trSurame} onChange={(e) => setTrSurname(e.target.value)} />
+                                <input type='text' placeholder='Ссылка на аватар' value={trAvatar} onChange={(e) => setTrAvatar(e.target.value)} />
                                 <input type='text' placeholder='Номер телефона' value={trPhone} onChange={(e) => setTrPhone(e.target.value)} />
                                 <input type='text' placeholder='Почта' value={trMail} onChange={(e) => setTrMail(e.target.value)} />
                                 <input type='text' placeholder='Цена за урок' value={trCost} onChange={(e) => setTrCost(e.target.value)} />
